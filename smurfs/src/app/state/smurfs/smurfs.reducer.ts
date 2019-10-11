@@ -1,5 +1,5 @@
 import { Smurf } from '../../models/Smurf';
-import { SmurfActions } from './smurfs.actions';
+import { SmurfsActions } from './smurfs.actions';
 
 export type SmurfsState = {
   list: Smurf[];
@@ -13,7 +13,7 @@ const initialState: SmurfsState = {
   loading: false,
 };
 
-export const smurfsReducer = (state = initialState, action: SmurfActions) => {
+export const smurfsReducer = (state = initialState, action: SmurfsActions) => {
   switch (action.type) {
     case 'GET_SMURFS_START':
       return { ...state, error: '', loading: true };

@@ -19,7 +19,8 @@ export type ClearError = { type: 'CLEAR_ERROR' };
 export type GetSmurfs = GetSmurfsStart | GetSmurfsSuccess | GetSmurfsFailure;
 export type AddSmurf = AddSmurfStart | AddSmurfSuccess | AddSmurfFailure;
 export type DeleteSmurf = DeleteSmurfStart | DeleteSmurfSuccess | DeleteSmurfFailure;
-export type SmurfActions = GetSmurfs | AddSmurf | DeleteSmurf | ClearError;
+
+export type SmurfsActions = GetSmurfs | AddSmurf | DeleteSmurf | ClearError;
 
 export const getSmurfs = () => (dispatch: (action: GetSmurfs) => void) => {
   dispatch({ type: 'GET_SMURFS_START' });
