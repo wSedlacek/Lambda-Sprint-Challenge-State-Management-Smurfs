@@ -69,7 +69,8 @@ const Error = () => {
             <Icon className={classes.icon}>error</Icon>
             {error}
           </span>
-        }></SnackbarContent>
+        }
+      />
     </Snackbar>
   );
 };
