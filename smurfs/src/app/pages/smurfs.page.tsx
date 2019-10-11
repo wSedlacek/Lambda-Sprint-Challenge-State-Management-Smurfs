@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
+
 import { AddSmurf } from '../components/add-smurf/add-smurf.component';
 import { SmurfsList } from '../components/smurfs-list/smurfs-list.component';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { Error } from '../components/error/error.component';
 
 const SmurfsPage = () => {
   return (
@@ -14,6 +16,7 @@ const SmurfsPage = () => {
       </AppBar>
       <AddSmurf />
       <SmurfsList />
+      <Error />
     </>
   );
 };

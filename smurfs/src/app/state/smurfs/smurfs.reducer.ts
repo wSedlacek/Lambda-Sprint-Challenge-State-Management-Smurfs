@@ -27,6 +27,8 @@ export const smurfsReducer = (state = initialState, action: SmurfActions) => {
       return { ...state, error: '', loading: false };
     case 'ADD_SMURF_FAILURE':
       return { ...state, error: action.payload, loading: false };
+    case 'CLEAR_ERROR':
+      return { ...state, error: '' };
     default:
       return state;
   }
