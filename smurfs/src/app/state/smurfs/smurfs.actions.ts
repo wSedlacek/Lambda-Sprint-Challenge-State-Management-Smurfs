@@ -4,17 +4,22 @@ import { Smurf } from '../../models/Smurf';
 
 type GetSmurfsStart = { type: 'GET_SMURFS_START' };
 type GetSmurfsSuccess = { type: 'GET_SMURFS_SUCCESS'; payload: Smurf[] };
-type GetSmurfsFail = { type: 'GET_SMURFS_FAILURE'; payload: string };
+type GetSmurfsFailure = { type: 'GET_SMURFS_FAILURE'; payload: string };
 
 type AddSmurfStart = { type: 'ADD_SMURF_START' };
-type AddSmurfSuccess = { type: 'ADD_SMURF_SUCCESS' };
-type AddSmurfFail = { type: 'ADD_SMURF_FAILURE'; payload: string };
+type AddSmurfSuccess = { type: 'ADD_SMURF_SUCCESS'; payload: Smurf[] };
+type AddSmurfFailure = { type: 'ADD_SMURF_FAILURE'; payload: string };
+
+type DeleteSmurfStart = { type: 'DELETE_SMURF_START' };
+type DeleteSmurfSuccess = { type: 'DELETE_SMURF_SUCCESS'; payload: Smurf };
+type DeleteSmurfFailure = { type: 'DELETE_SMURF_FAILURE'; payload: string };
 
 export type ClearError = { type: 'CLEAR_ERROR' };
 
-export type GetSmurfs = GetSmurfsStart | GetSmurfsSuccess | GetSmurfsFail;
-export type AddSmurf = AddSmurfStart | AddSmurfSuccess | AddSmurfFail;
-export type SmurfActions = GetSmurfs | AddSmurf | ClearError;
+export type GetSmurfs = GetSmurfsStart | GetSmurfsSuccess | GetSmurfsFailure;
+export type AddSmurf = AddSmurfStart | AddSmurfSuccess | AddSmurfFailure;
+export type DeleteSmurf = DeleteSmurfStart | DeleteSmurfSuccess | DeleteSmurfFailure;
+export type SmurfActions = GetSmurfs | AddSmurf | DeleteSmurf | ClearError;
 
 export const getSmurfs = () => (dispatch: (action: GetSmurfs) => void) => {
   dispatch({ type: 'GET_SMURFS_START' });
@@ -24,15 +29,20 @@ export const getSmurfs = () => (dispatch: (action: GetSmurfs) => void) => {
     .catch((err) => dispatch({ type: 'GET_SMURFS_FAILURE', payload: err.toString() }));
 };
 
-export const addSmurf = (smurf: Smurf) => (dispatch: (action: AddSmurf | GetSmurfs) => void) => {
+export const addSmurf = (payload: Smurf) => (dispatch: (action: AddSmurf) => void) => {
   dispatch({ type: 'ADD_SMURF_START' });
   axios
-    .post<Smurf>('http://localhost:3333/smurfs', { ...smurf })
-    .then(() => {
-      dispatch({ type: 'ADD_SMURF_SUCCESS' });
-      getSmurfs()(dispatch);
-    })
+    .post<Smurf[]>('http://localhost:3333/smurfs', { ...payload })
+    .then((res) => dispatch({ type: 'ADD_SMURF_SUCCESS', payload: res.data }))
     .catch((err) => dispatch({ type: 'ADD_SMURF_FAILURE', payload: err.toString() }));
+};
+
+export const deleteSmurf = (payload: Smurf) => (dispatch: (action: DeleteSmurf) => void) => {
+  dispatch({ type: 'DELETE_SMURF_START' });
+  axios
+    .delete(`http://localhost:3333/smurfs/${payload.id}`)
+    .then(() => dispatch({ type: 'DELETE_SMURF_SUCCESS', payload }))
+    .catch((err) => dispatch({ type: 'DELETE_SMURF_FAILURE', payload: err.toString() }));
 };
 
 export const clearError = () => (dispatch: (action: ClearError) => void) => {

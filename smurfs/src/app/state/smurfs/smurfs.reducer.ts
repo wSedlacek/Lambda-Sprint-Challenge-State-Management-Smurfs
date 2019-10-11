@@ -21,12 +21,23 @@ export const smurfsReducer = (state = initialState, action: SmurfActions) => {
       return { ...state, error: '', loading: false, list: action.payload };
     case 'GET_SMURFS_FAILURE':
       return { ...state, error: action.payload, loading: false, list: [] };
+
     case 'ADD_SMURF_START':
       return { ...state, error: '', loading: true };
     case 'ADD_SMURF_SUCCESS':
-      return { ...state, error: '', loading: false };
+      return { ...state, error: '', loading: false, list: action.payload };
     case 'ADD_SMURF_FAILURE':
       return { ...state, error: action.payload, loading: false };
+
+    case 'DELETE_SMURF_START':
+      return { ...state, error: '', loading: true };
+    case 'DELETE_SMURF_SUCCESS':
+      const { id } = action.payload;
+      const list = state.list.filter((smurf) => smurf.id !== id);
+      return { ...state, error: '', loading: false, list };
+    case 'DELETE_SMURF_FAILURE':
+      return { ...state, error: action.payload, loading: false };
+
     case 'CLEAR_ERROR':
       return { ...state, error: '' };
     default:

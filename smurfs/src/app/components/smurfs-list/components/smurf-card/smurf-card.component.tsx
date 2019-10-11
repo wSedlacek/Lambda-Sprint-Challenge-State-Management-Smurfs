@@ -1,8 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
-import { Card, CardContent, Typography, makeStyles } from '@material-ui/core';
+import { Button, Card, CardContent, Typography, makeStyles } from '@material-ui/core';
 
 import { Smurf } from '../../../../models/Smurf';
+import { deleteSmurf } from '../../../../state/app.actions';
 
 const useStyles = makeStyles({
   root: {
@@ -16,6 +18,7 @@ type SmurfCardProps = {
 
 const SmurfCard = (props: SmurfCardProps) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { smurf } = props;
 
   return (
@@ -26,6 +29,7 @@ const SmurfCard = (props: SmurfCardProps) => {
         </Typography>
         <Typography variant='body1'>{`Years Old: ${smurf.age}`}</Typography>
         <Typography variant='body1'>{`Height: ${smurf.height}`}</Typography>
+        <Button onClick={() => deleteSmurf(smurf)(dispatch)}>Delete</Button>
       </CardContent>
     </Card>
   );
