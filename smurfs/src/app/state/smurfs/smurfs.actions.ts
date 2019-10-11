@@ -23,6 +23,7 @@ export const getSmurfs = () => (dispatch: (action: GetSmurfs) => void) => {
 };
 
 export const addSmurf = (smurf: Smurf) => (dispatch: (action: AddSmurf | GetSmurfs) => void) => {
+  dispatch({ type: 'ADD_SMURF_START' });
   axios
     .post<Smurf>('http://localhost:3333/smurfs', { ...smurf })
     .then(() => {
